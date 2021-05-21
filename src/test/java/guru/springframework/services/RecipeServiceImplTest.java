@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
 
-    public static final Long RECIPE_ID = 1L;
+    public static final String RECIPE_ID = "1";
     RecipeServiceImpl recipeService;
 
     @Mock
@@ -57,18 +57,18 @@ public class RecipeServiceImplTest {
     public void getRecipeById() {
         Recipe recipe = Recipe.builder().id(RECIPE_ID).build();
 
-        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+        when(recipeRepository.findById(anyString())).thenReturn(Optional.of(recipe));
 
         Recipe requestedRecipe = recipeService.findById(RECIPE_ID);
 
         assertNotNull(requestedRecipe);
         assertEquals(RECIPE_ID, requestedRecipe.getId());
-        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyString());
     }
 
     @Test(expected = NotFoundException.class)
     public void getRecipeByIdForNotFoundRecipe_ShouldThrowException() {
-        when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(recipeRepository.findById(anyString())).thenReturn(Optional.empty());
 
         recipeService.findById(RECIPE_ID);
     }
@@ -77,6 +77,6 @@ public class RecipeServiceImplTest {
     public void deleteRecipeByIdForFoundRecipe_ShouldDelete() {
         recipeService.deleteById(RECIPE_ID);
 
-        verify(recipeRepository, times(1)).deleteById(anyLong());
+        verify(recipeRepository, times(1)).deleteById(anyString());
     }
 }

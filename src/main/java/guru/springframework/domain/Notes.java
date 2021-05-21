@@ -1,21 +1,22 @@
 package guru.springframework.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
-@Entity
+@Document
 public class Notes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @ToString.Exclude
-    @OneToOne
+    @DBRef
     private Recipe recipe;
-
     private String recipeNotes;
 
 }

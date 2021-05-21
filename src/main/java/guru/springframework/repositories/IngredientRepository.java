@@ -5,9 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 
-    Optional<Ingredient> findByIdAndRecipeId(Long id, Long recipeId);
+    Optional<Ingredient> findByIdAndRecipeId(String id, String recipe_id);
 
-    void deleteByIdAndRecipeId(Long id, Long recipeId);
+    void deleteByIdAndRecipeId(String id, String recipe_id);
 }

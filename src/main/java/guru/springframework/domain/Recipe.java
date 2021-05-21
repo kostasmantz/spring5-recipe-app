@@ -1,8 +1,13 @@
 package guru.springframework.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,12 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
+@Document
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -23,20 +27,13 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    @DBRef
     private Set<Ingredient> ingredients;
-    @Lob
     private Byte[] image;
-    @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
-    @OneToOne(cascade = CascadeType.ALL)
+    @DBRef
     private Notes notes;
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_category",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @DBRef
     private Set<Category> categories;
 
     public void addCategory(Category category) {
@@ -46,5 +43,15 @@ public class Recipe {
             categories = new HashSet<>();
         }
         categories.add(category);
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredient == null) {
+            return;
+        } else if (ingredients == null) {
+            ingredients = new HashSet<>();
+        }
+
+        ingredients.add(ingredient);
     }
 }

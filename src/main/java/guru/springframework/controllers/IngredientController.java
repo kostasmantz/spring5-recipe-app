@@ -3,6 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
+import guru.springframework.services.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class IngredientController {
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
-    public String getUpdateIngredient(@PathVariable("ingredientId") Long id, @PathVariable("recipeId") Long recipeId, Model model) {
+    public String getUpdateIngredient(@PathVariable("ingredientId") String id, @PathVariable("recipeId") Long recipeId, Model model) {
 
         model.addAttribute("ingredient", ingredientService.findByIngredientId(id));
         model.addAttribute("uomList", uomService.findAll());
@@ -33,7 +34,7 @@ public class IngredientController {
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
-    public String deleteIngredient(@PathVariable("ingredientId") Long id, @PathVariable("recipeId") Long recipeId, Model model) {
+    public String deleteIngredient(@PathVariable("ingredientId") String id, @PathVariable("recipeId") String recipeId, Model model) {
         ingredientService.deleteById(id, recipeId);
 
         return "redirect:/recipe/" + recipeId + "/show";
@@ -45,8 +46,8 @@ public class IngredientController {
         //TODO: transfer those in service
         //TODO: raise exception if recipe command is not found
         IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
-        ingredientCommand.setRecipe(recipeService.findCommandById(Long.valueOf(recipeId)));
+        ingredientCommand.setRecipeId(recipeId);
+        ingredientCommand.setRecipe(recipeService.findCommandById(recipeId));
 
         model.addAttribute("ingredient", ingredientCommand);
         model.addAttribute("uomList", uomService.findAll());

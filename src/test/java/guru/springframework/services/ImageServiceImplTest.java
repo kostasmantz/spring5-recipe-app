@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class ImageServiceImplTest {
 
-    public static final long RECIPE_ID = 1L;
+    public static final String RECIPE_ID = "1";
 
     @Mock
     RecipeService recipeService;
@@ -41,7 +41,7 @@ public class ImageServiceImplTest {
         MultipartFile multipartFile = new MockMultipartFile("imagefile", "original.txt", "text/plain", "Test file".getBytes());
         Recipe recipe = Recipe.builder().id(RECIPE_ID).build();
 
-        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        when(recipeService.findById(anyString())).thenReturn(recipe);
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);
 
         imageService.saveImageFile(RECIPE_ID, multipartFile);

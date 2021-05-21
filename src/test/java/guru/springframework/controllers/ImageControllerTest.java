@@ -44,10 +44,10 @@ public class ImageControllerTest {
     public void getUploadImageForm_ShouldReturnFormViewName() {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId("1");
 
         //when
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
 
         try {
             mockMvc.perform(get("/recipe/1/image"))
@@ -59,7 +59,7 @@ public class ImageControllerTest {
         }
 
         //then
-        verify(recipeService, times(1)).findCommandById(anyLong());
+        verify(recipeService, times(1)).findCommandById(anyString());
     }
 
     @Test
@@ -74,6 +74,6 @@ public class ImageControllerTest {
             fail(e.getMessage());
         }
 
-        verify(imageService, times(1)).saveImageFile(anyLong(), any());
+        verify(imageService, times(1)).saveImageFile(anyString(), any());
     }
 }

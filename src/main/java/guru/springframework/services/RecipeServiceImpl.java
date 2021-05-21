@@ -9,7 +9,6 @@ import guru.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,18 +37,17 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public Recipe findById(Long recipeId) {
+    public Recipe findById(String recipeId) {
         return recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new NotFoundException("Recipe not found for id " + recipeId));
     }
 
     @Override
-    public RecipeCommand findCommandById(Long recipeId) {
+    public RecipeCommand findCommandById(String recipeId) {
         return recipeConverter.convert(findById(recipeId));
     }
 
     @Override
-    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe savedRecipe = recipeRepository.save(recipeCommandConverter.convert(recipeCommand));
 
@@ -57,7 +55,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public void deleteById(Long recipeId) {
+    public void deleteById(String recipeId) {
         recipeRepository.deleteById(recipeId);
     }
 }

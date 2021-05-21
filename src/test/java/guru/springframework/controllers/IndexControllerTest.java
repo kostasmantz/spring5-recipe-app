@@ -43,7 +43,7 @@ public class IndexControllerTest {
         String expected = "index";
 
         Recipe recipe = new Recipe();
-        recipe.setId(2L);
+        recipe.setId("2");
 
         Set<Recipe> recipes = new HashSet<>();
         recipes.add(new Recipe());

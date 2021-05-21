@@ -1,4 +1,4 @@
-package guru.springframework.controllers;
+package guru.springframework.services;
 
 import guru.springframework.commands.UnitOfMeasureCommand;
 

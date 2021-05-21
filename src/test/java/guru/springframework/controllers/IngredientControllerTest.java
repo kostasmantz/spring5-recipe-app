@@ -3,6 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
+import guru.springframework.services.UnitOfMeasureService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -48,7 +49,7 @@ public class IngredientControllerTest {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
 
-        when(ingredientService.findByIngredientId(anyLong())).thenReturn(ingredientCommand);
+        when(ingredientService.findByIngredientId(anyString())).thenReturn(ingredientCommand);
         when(uomService.findAll()).thenReturn(Collections.emptySet());
 
         try {
@@ -72,6 +73,6 @@ public class IngredientControllerTest {
             fail(e.getMessage());
         }
 
-        verify(ingredientService, times(1)).deleteById(anyLong(), anyLong());
+        verify(ingredientService, times(1)).deleteById(anyString(), anyString());
     }
 }
